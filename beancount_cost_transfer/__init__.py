@@ -30,7 +30,7 @@ def process_entries(entries):
         else: 
           augmenting.append(posting)
       if len(augmenting) != 1:
-        errors.append(KeepCostError(posting.meta, "Augmenting posts need to be 1", None))
+        errors.append(CostTransferError(posting.meta, "Augmenting posts need to be 1", None))
       else:
         for reducing_posting in reducing:
           augmenting_posting = reducing_posting._replace(
