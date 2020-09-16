@@ -29,12 +29,19 @@ def process_entries(entries):
           new_postings.append(posting)
         else: 
           augmenting.append(posting)
-      if len(augmenting) != 1:
-        errors.append(CostTransferError(posting.meta, "Augmenting posts need to be 1", None))
+      # if len(augmenting) != 1:
+      #   errors.append(CostTransferError(posting.meta, "Augmenting posts need to be 1", None))
+      # else:
+      if len(augmenting) > 1:
+        errors.append(CostTransferError(posting.meta, "Augmenting posts cannot to be more than 1", None))
       else:
+        if len(augmenting) == 0:
+          account = entry.meta['account']
+        else:
+          account = augmenting[0].account
         for reducing_posting in reducing:
           augmenting_posting = reducing_posting._replace(
-            account=augmenting[0].account,
+            account=account,
             units=amount.Amount(-reducing_posting.units.number, reducing_posting.units.currency),
           )
           new_postings.append(augmenting_posting)
